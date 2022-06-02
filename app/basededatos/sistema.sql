@@ -40,8 +40,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `archivos` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  titulo varchar(50) NOT NULL,
-  fotocopia_ci boolean NOT NULL,
+  nombre_archivo varchar(50) NOT NULL,
   `fecha_creacion` date NOT NULL,
   `fecha_modificacion` date NOT NULL,
   `fecha_eliminacion` date DEFAULT NULL
@@ -63,7 +62,7 @@ create table tipo_archivo(
 
 create table ubicaciones(
   id int(11) not null auto_increment,
-  nombre varchar(50) not null,
+  id_gabetas int(11) not null,
   descripcion varchar(50) not null,
   fila int(11) not null,
   columna int(11) not null,
@@ -99,7 +98,8 @@ CREATE TABLE `estudiantes` (
 CREATE TABLE `gabetas` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   id_ambiente int(11) not null,
-  `cod_gabeta` varchar(50) NOT NULL
+  `cod_gabeta` varchar(50) NOT NULL,
+  descripcion varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Tabla ambiente
@@ -289,6 +289,10 @@ create table archivo_ubicaciones(
   id_ubicacion int(11) not null,
   id_persona int(11) not null,
   id_programa int(11) not null,
+  ci varchar(10) not null,
+  certificado_nacimiento varchar(50),
+  observaciones varchar(255),
+  estado varchar(50) not null,
   primary key(id)
 );
 
@@ -321,3 +325,6 @@ add CONSTRAINT fk_lugar FOREIGN key(id_lugar) references lugares(id);
 alter table gabetas 
 
 add CONSTRAINT fk_gabetas FOREIGN key(id_ambiente) references ambientes(id);
+
+alter table ubicaciones
+add CONSTRAINT fk_ubicaciones FOREIGN key (id_gabetas) references gabetas(id);
